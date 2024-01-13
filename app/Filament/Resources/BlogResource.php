@@ -2,16 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BlogResource\Pages;
-use App\Filament\Resources\BlogResource\RelationManagers;
-use App\Models\Blog;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\Blog;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\BlogResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\BlogResource\RelationManagers;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Tabs\Tab;
+
+use function PHPSTORM_META\map;
 
 class BlogResource extends Resource
 {
@@ -23,44 +28,69 @@ class BlogResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('slug')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('image')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->required()
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                        if ($operation !== 'create') {
+                                            return;
+                                        }
+
+                                        $set('slug', Str::slug($state));
+                                    }),
+
+                                Forms\Components\TextInput::make('slug')
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->required()
+                                    ->unique(Blog::class, 'slug', ignoreRecord: true),
+
+                                Forms\Components\MarkdownEditor::make('description')
+                                    ->disableToolbarButtons([
+                                        'attachFiles'
+                                    ])
+                                    ->columnSpan('full'),
+                            ])
+                            ->columns(2),
+
+                        Forms\Components\Section::make('Images')
+                            ->schema([
+                                SpatieMediaLibraryFileUpload::make('photo')
+                                    ->collection('blog-images')
+                                    ->multiple()
+                                    ->maxFiles(5)
+                                    ->disableLabel(),
+                            ])
+                            ->collapsible(),
+
+                    ])
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('blog-images')
+                    ->label("Image")
+                    ->collection('blog-images'),
+
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                    ->label('Title')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Description')
+                    ->limit(100)
+                    ->searchable()
+                    ->sortable(),
+
+
+
+
             ])
             ->filters([
                 //
@@ -74,14 +104,14 @@ class BlogResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -89,5 +119,5 @@ class BlogResource extends Resource
             'create' => Pages\CreateBlog::route('/create'),
             'edit' => Pages\EditBlog::route('/{record}/edit'),
         ];
-    }    
+    }
 }
