@@ -4,40 +4,47 @@
           <div class="container">
               <div class="row">
 
-                  <div class="col-lg-4 col-md-6">
+                  <div class=" col-4">
                       <div class="footer-info">
                           <h3>NewBurmaElectric</h3>
                           <p>
-                              A108 Adam Street <br>
-                              NY 535022, USA<br><br>
-                              <strong>Phone:</strong> +1 5589 55488 55<br>
-                              <strong>Email:</strong> info@example.com<br>
-                          </p>
-                          <div class="social-links d-flex mt-3">
-                              <a href="#" class="d-flex align-items-center justify-content-center"><i
-                                      class="bi bi-twitter"></i></a>
-                              <a href="#" class="d-flex align-items-center justify-content-center"><i
-                                      class="bi bi-facebook"></i></a>
-                              <a href="#" class="d-flex align-items-center justify-content-center"><i
-                                      class="bi bi-instagram"></i></a>
-                              <a href="#" class="d-flex align-items-center justify-content-center"><i
-                                      class="bi bi-linkedin"></i></a>
-                          </div>
-                      </div>
-                  </div><!-- End footer info column-->
+                              29 Street Middle Block, No 150--152 <br>
+                              Pabedan Township<br>
+                              Yangon, Myanmar
+                              <br>
 
-                  <div class="col-lg-2 col-md-3 footer-links">
+                      </div>
+                  </div>
+
+                  <div class=" col-4">
+                      <strong>Phone:</strong> +95 5 555 0786<br>
+
+
+                      <strong>Email:</strong> newburmaelectric@gmail.com<br>
+                      </p>
+                      <div class="social-links d-flex mt-3">
+                          <a href="#" class="d-flex align-items-center justify-content-center"><i
+                                  class="bi bi-twitter"></i></a>
+                          <a href="https://www.facebook.com/profile.php?id=100063824504373&mibextid=ZbWKwL"
+                              class="d-flex align-items-center justify-content-center"><i
+                                  class="bi bi-facebook"></i></a>
+                          <a href="#" class="d-flex align-items-center justify-content-center"><i
+                                  class="bi bi-instagram"></i></a>
+                          <a href="#" class="d-flex align-items-center justify-content-center"><i
+                                  class="bi bi-linkedin"></i></a>
+                      </div>
+                  </div>
+
+                  <div class=" col-4 footer-links">
                       <h4>Useful Links</h4>
                       <ul>
-                          <li><a href="#">Home</a></li>
-                          <li><a href="#">About us</a></li>
-                          <li><a href="#">Services</a></li>
-                          <li><a href="#">Terms of service</a></li>
-                          <li><a href="#">Privacy policy</a></li>
+                          <li><a href="{{ route('index') }}">Home</a></li>
+                          <li><a href="{{ route('product') }}">Products</a></li>
+                          <li><a href="{{ route('contact') }}">Contact</a></li>
                       </ul>
                   </div><!-- End footer links column-->
 
-                  <div class="col-lg-2 col-md-3 footer-links">
+                  {{-- <div class="col-lg-2 col-md-3 footer-links">
                       <h4>Our Services</h4>
                       <ul>
                           <li><a href="#">Web Design</a></li>
@@ -68,7 +75,7 @@
                           <li><a href="#">Trodelas</a></li>
                           <li><a href="#">Flexo</a></li>
                       </ul>
-                  </div><!-- End footer links column-->
+                  </div><!-- End footer links column--> --}}
 
               </div>
           </div>

@@ -11,13 +11,15 @@
          <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
          <nav id="navbar" class="navbar">
              <ul>
-                 <li><a href="index.html" class="active">Home</a></li>
-                 <li><a href="about.html">About</a></li>
-                 <li><a href="services.html">Services</a></li>
+                 <li><a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
+                 </li>
+                 <li><a href="{{ route('product') }}"
+                         class="{{ request()->routeIs('product') ? 'active' : '' }}">Products</a></li>
+                 <li><a href="{{ route('contact') }}"
+                         class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
 
-                 <li><a href="blog.html">Blog</a></li>
-
-                 <li><a href="{{ route('contact') }}">Contact</a></li>
+                 {{-- <li><a href="services.html">Services</a></li> --}}
+                 {{-- <li><a href="blog.html">Blog</a></li> --}}
              </ul>
          </nav><!-- .navbar -->
 
